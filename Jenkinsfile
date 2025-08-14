@@ -1,10 +1,7 @@
 pipeline {
   agent any
 
-  tools {
-    maven 'M3'   // match names from Global Tool Configuration
-    jdk   'JDK17'
-  }
+
 
   parameters {
     string(name: 'CUCUMBER_TAGS', defaultValue: '', description: 'e.g. @smoke or not @wip')
