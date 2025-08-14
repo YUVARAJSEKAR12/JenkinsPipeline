@@ -1,0 +1,20 @@
+{
+  "id": 101,
+  "name": "John Doe",
+  "isActive": true,
+  "address": {
+    "street": "123 Main St",
+    "city": "New York",
+    "zipcode": "10001"
+  },
+  "contacts": [
+    {
+      "type": "email",
+      "value": "john@example.com"
+    },
+    {
+      "type": "phone",
+      "value": "123-456-7890"
+    }
+  ]
+}
