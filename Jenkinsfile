@@ -1,16 +1,18 @@
-// Jenkinsfile (Windows agent)
 pipeline {
   agent any
 
-  options {
-    timestamps()
-    ansiColor('xterm')
+  tools {
+    maven 'M3'   // match names from Global Tool Configuration
+    jdk   'JDK17'
   }
 
-
-
   parameters {
-    string(name: 'CUCUMBER_TAGS', defaultValue: '', description: 'e.g. @smoke or @smoke or @regression')
+    string(name: 'CUCUMBER_TAGS', defaultValue: '', description: 'e.g. @smoke or not @wip')
+  }
+
+  options {
+    timestamps()
+    // ansiColor('xterm') // enable only if AnsiColor plugin is installed
   }
 
   stages {
@@ -22,7 +24,6 @@ pipeline {
 
     stage('Build') {
       steps {
-        // Windows uses 'bat' instead of 'sh'
         bat 'mvn -B -q --version'
         bat 'mvn -B clean compile'
       }
@@ -31,18 +32,15 @@ pipeline {
     stage('Run Cucumber Tests') {
       steps {
         script {
-          // Build the tag arg only if provided
           def tagArg = params.CUCUMBER_TAGS?.trim() ? "-Dcucumber.filter.tags=\"${params.CUCUMBER_TAGS.trim()}\"" : ""
           bat "mvn -B test ${tagArg}"
         }
       }
       post {
         always {
-          // Publish reports (adjust patterns to your project)
           junit '**/target/surefire-reports/*.xml'
-          // If you generate cucumber.json, publish it:
-          // Requires "Cucumber reports" plugin
-          cucumber fileIncludePattern: '**/target/cucumber.json', trendsLimit: 10
+          // If you have the Cucumber Reports plugin and create target/cucumber.json:
+          // cucumber fileIncludePattern: '**/target/cucumber.json', trendsLimit: 10
         }
       }
     }
