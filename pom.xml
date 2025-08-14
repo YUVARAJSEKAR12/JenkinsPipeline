@@ -75,7 +75,7 @@
         <configuration>
           <!-- Run your test runner class -->
           <includes>
-            <include>**/TestRunner.java</include>
+            <include>**/Runner.java</include>
           </includes>
 
           <!-- Pass tags from Jenkins parameter or command line -->
