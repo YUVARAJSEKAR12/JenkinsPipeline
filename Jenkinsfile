@@ -7,12 +7,7 @@ pipeline {
     ansiColor('xterm')
   }
 
-  // If you configured tools in "Manage Jenkins > Global Tool Configuration",
-  // set their names below (e.g., Maven: "M3", JDK: "JDK17").
-  tools {
-    maven 'M3'
-    jdk   'JDK17'
-  }
+
 
   parameters {
     string(name: 'CUCUMBER_TAGS', defaultValue: '', description: 'e.g. @smoke or @smoke or @regression')
