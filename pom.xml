@@ -3,6 +3,11 @@
   <groupId>com.app</groupId>
   <artifactId>API_Cucumber</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <properties>
+  <maven.compiler.source>17</maven.compiler.source>
+  <maven.compiler.target>17</maven.compiler.target>
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+</properties>
   <dependencies>
 	  <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
 <dependency>
@@ -62,28 +67,41 @@
 <dependency>
     <groupId>tech.grasshopper</groupId>
     <artifactId>extentreports-cucumber7-adapter</artifactId>
-    <version>1.14.0</version>
+    <version>1.14.0</version>  
 </dependency>
+  <dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <version>1.18.34</version> <!-- or newer -->
+    <scope>provided</scope>
+  </dependency>
   </dependencies>
-	<build>
-    <plugins>
-      <!-- Surefire Plugin to run Cucumber tests -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M9</version>
-        <configuration>
-          <!-- Run your test runner class -->
-          <includes>
-            <include>**/Runner.java</include>
-          </includes>
+  <build>
+  <plugins>
+    <plugin>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <version>3.11.0</version>
+      <configuration>
+        <source>${maven.compiler.source}</source>
+        <target>${maven.compiler.target}</target>
 
-          <!-- Pass tags from Jenkins parameter or command line -->
-          <systemPropertyVariables>
-            <cucumber.filter.tags>${cucumber.filter.tags}</cucumber.filter.tags>
-          </systemPropertyVariables>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+        <!-- Make Lombok the annotation processor -->
+        <annotationProcessorPaths>
+          <path>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.34</version>
+          </path>
+        </annotationProcessorPaths>
+      </configuration>
+    </plugin>
+
+    <!-- Optional: use a stable surefire -->
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-surefire-plugin</artifactId>
+      <version>3.2.5</version>
+    </plugin>
+  </plugins>
+</build>
 </project>
